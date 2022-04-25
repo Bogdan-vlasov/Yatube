@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}404!{% endblock %}
+{% block content %}
+    <h1>ОШИБКА 404!!!</h1>
+    <p>
+       Страница с адресом {{ path }} не найдена!
+    </p>
+    <a href="{% url 'posts:index' %}">Вернуться на главную страницу</a>
+{% endblock %}

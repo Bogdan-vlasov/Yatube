@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Подписки{% endblock %}
+{% block content %}
+{% load cache %}
+    <div class="container py-5">
+    <h2>Подписки</h2>
+    {% if user.is_authenticated %} 
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {% if index %}active{% endif %}" href="{% url 'posts:index' %}">
+                  Все авторы
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if follow %}active{% endif %}" href="{% url 'posts:follow_index' %}">
+                Избранные авторы
+            </a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+    {% cache 10 follow_index_page %}
+        {% for post in page_obj %}
+            {% include "includes/post_card.html" with show_author=True show_group=True show_post=True%}
+            {% if not forloop.last %}<hr>{% endif %}
+        {% endfor %}
+    {% if page.has_other_pages %}
+        {% include "includes/paginator.html" %}
+    {% endif %}
+
+    {% endcache %}
+
+    </div>
+
+{% endblock %}

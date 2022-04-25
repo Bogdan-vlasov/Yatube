@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Последние обновления на сайте{% endblock %}
+{% block content %}
+  {% load cache %}
+  {% cache 20 index_page %}
+  <div class="container py-5">
+    <h2>Главная страница</h2>
+    {% include 'includes/switcher.html' %}
+    {% for post in page_obj %}
+      {% include "includes/post_card.html" with show_author=True show_group=True show_post=True%}
+      {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+    {% include 'includes/paginator.html' %}
+    {% endcache %}
+  </div>
+{% endblock %}
