@@ -1,3 +1,4 @@
+from urllib import request
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -99,6 +100,10 @@ def page_not_found(request, exception=None):
 
 def server_error(request):
     return render(request, 'core/500.html', status=500)
+
+
+def Forbidden(request):
+    return render(request, 'core/403.html', status=403)
 
 
 @login_required
