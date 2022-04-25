@@ -1,6 +1,5 @@
 from django.test import Client, TestCase
 from django.urls import reverse
-
 from posts.models import Follow, Post, User
 
 PUPA = 'test_pupa'
