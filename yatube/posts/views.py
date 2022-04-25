@@ -15,6 +15,7 @@ def paginator(queryset, request):
         'page_obj': page_obj,
     }
 
+
 def index(request):
     posts = Post.objects.order_by('-pub_date')
     context = paginator(posts, request)
@@ -99,6 +100,7 @@ def page_not_found(request, exception=None):
 def server_error(request):
     return render(request, 'core/500.html', status=500)
 
+
 @login_required
 def add_comment(request, post_id):
     post = Post.objects.get(id=post_id)
@@ -108,12 +110,13 @@ def add_comment(request, post_id):
         comment.author = request.user
         comment.post = post
         comment.save()
-    return redirect('posts:post_detail', post_id=post.id) 
+    return redirect('posts:post_detail', post_id=post.id)
+
 
 @login_required
 def follow_index(request):
     post_list = Post.objects.filter(author__following__user=request.user)
-    context = paginator (post_list, request)
+    context = paginator(post_list, request)
     return render(request, 'posts/follow.html', context)
 
 
