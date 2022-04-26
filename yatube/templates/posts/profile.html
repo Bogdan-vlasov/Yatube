@@ -4,7 +4,7 @@
   <main role="main" class="container">
     <div class="row">
       {% include "includes/author_part.html" %}
-       {% if following %}
+       {% if follow%}
     <a
       class="btn btn-lg btn-light"
       href="{% url 'posts:profile_unfollow' author.username %}" role="button"
@@ -24,7 +24,6 @@
           {% include "includes/post_card.html" with show_author=False show_group=True %}
           {% if not forloop.last %}<hr>{% endif %}
         {% endfor %}
-        
         {% include "includes/paginator.html" %}
       </div>
     </div>

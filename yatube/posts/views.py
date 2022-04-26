@@ -17,7 +17,7 @@ def paginator(queryset, request):
 
 
 def index(request):
-    posts = Post.objects.order_by('-pub_date')
+    posts = Post.objects.select_related('group').order_by('-pub_date')
     context = paginator(posts, request)
     return render(request, 'posts/index.html', context)
 
@@ -36,9 +36,14 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     author_posts = author.posts.order_by('-pub_date')
     posts_count = author_posts.count()
+    follow = (request.user.is_authenticated and author != request.user
+              and Follow.objects.filter(
+                  author=author,
+                  user=request.user).exists())
     context = {
         'author': author,
-        'posts_count': posts_count
+        'posts_count': posts_count,
+        'follow': follow
     }
     context.update(paginator(author_posts, request))
     return render(request, 'posts/profile.html', context)
@@ -101,7 +106,7 @@ def server_error(request):
     return render(request, 'core/500.html', status=500)
 
 
-def Forbidden(request):
+def forbidden(request, exeption=None):
     return render(request, 'core/403.html', status=403)
 
 
